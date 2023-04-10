@@ -1,7 +1,7 @@
 import os
 import argparse
 import numpy as np
-from PIL import Image, ImageDraw, ImageFont, ImageOps
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import colorsys
 
 def generate_rainbow_image(image_shape, band_width=90, angle=0, start_h_angle=0, poster_bit=1):
@@ -38,19 +38,31 @@ def draw_text(text, font_path, font_size):
                   font=font)
     return np.asarray(pil_image)
 
-def merge_text_rainbow_images(text_image, rainbow_image):
+def draw_edge(text_image, iterations=1):
+    filter_text_image = Image.fromarray(text_image)
+    for _ in range(iterations):
+        filter_text_image = filter_text_image.filter(ImageFilter.MaxFilter)
+
+    edge_image = np.asarray(filter_text_image) - text_image
+
+    return edge_image
+
+def merge_text_rainbow_images(text_image, rainbow_image, edge_image, edge_color=(0, 0, 0)):
     canvas_image = np.zeros((text_image.shape[0], text_image.shape[1], 4), dtype=np.uint8)
     canvas_image[text_image[:, :, 0] > 0, -1] = 255
     canvas_image[text_image[:, :, 0] > 0, :-1] = rainbow_image[text_image[:, :, 0] > 0]
+    canvas_image[edge_image[:, :, 0] > 0, -1] = 255
+    canvas_image[edge_image[:, :, 0] > 0, :-1] = edge_color
     return canvas_image
 
 
 def draw(text, font_path, font_size, output_git_path, angle=5, band_width=360, duration=20):
     text_image = draw_text(text, font_path, font_size)
+    edge_image = draw_edge(text_image)
     gif_image_list = []
     for image_index in range(180):
         rainbow_image = generate_rainbow_image(text_image.shape, band_width, angle, image_index)
-        merge_image = merge_text_rainbow_images(text_image, rainbow_image)
+        merge_image = merge_text_rainbow_images(text_image, rainbow_image, edge_image)
         if image_index % 3 == 0:
             gif_image_list.append(Image.fromarray(merge_image))
     gif_image_list[0].save(output_git_path,
@@ -58,7 +70,7 @@ def draw(text, font_path, font_size, output_git_path, angle=5, band_width=360, d
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='draw rainbow text gif generator')
-    parser.add_argument('--text', type=str, default='バーチャルAI工房')
+    parser.add_argument('--text', type=str, default='部品全体でも上手くいくかも')
     parser.add_argument('--font_size', type=int, default=128)
     parser.add_argument('--font_path', type=str, default=os.path.join(os.path.dirname(__file__), 'fonts/ipag.ttf'))
     parser.add_argument('--output_git_path', type=str, default='~/Desktop/rainbow_text.gif')
