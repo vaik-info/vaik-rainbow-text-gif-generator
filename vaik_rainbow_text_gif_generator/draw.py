@@ -45,7 +45,7 @@ def merge_text_rainbow_images(text_image, rainbow_image):
     return canvas_image
 
 
-def draw(text, font_path, font_size, output_git_path, angle=5, band_width=360, duration=10):
+def draw(text, font_path, font_size, output_git_path, angle=5, band_width=360, duration=20):
     text_image = draw_text(text, font_path, font_size)
     gif_image_list = []
     for image_index in range(180):
@@ -59,7 +59,7 @@ def draw(text, font_path, font_size, output_git_path, angle=5, band_width=360, d
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='draw rainbow text gif generator')
     parser.add_argument('--text', type=str, default='バーチャルAI工房')
-    parser.add_argument('--font_size', type=int, default=64)
+    parser.add_argument('--font_size', type=int, default=128)
     parser.add_argument('--font_path', type=str, default=os.path.join(os.path.dirname(__file__), 'fonts/ipag.ttf'))
     parser.add_argument('--output_git_path', type=str, default='~/Desktop/rainbow_text.gif')
 
