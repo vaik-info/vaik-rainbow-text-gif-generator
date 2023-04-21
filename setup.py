@@ -26,7 +26,7 @@ if __name__ == '__main__':
         install_requires=load_requires_from_file('requirements.txt'),
         entry_points={
             "console_scripts": [
-                "rainbow_text = draw:main",
+                "rainbow_text = vaik_rainbow_text_gif_generator.draw:main",
             ],
         },
         dependency_links=load_links_from_file('requirements.txt'),

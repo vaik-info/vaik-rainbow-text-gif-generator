@@ -68,7 +68,7 @@ def draw(text, font_path, font_size, output_git_path, angle=5, band_width=360, d
     gif_image_list[0].save(output_git_path,
                    save_all=True, append_images=gif_image_list[1:], optimize=False, duration=duration, loop=0)
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser(description='draw rainbow text gif generator')
     parser.add_argument('--text', type=str, default='77.7%')
     parser.add_argument('--font_size', type=int, default=128)
@@ -80,3 +80,6 @@ if __name__ == '__main__':
     args.font_path = os.path.expanduser(args.font_path)
     args.output_git_path = os.path.expanduser(args.output_git_path)
     draw(args.text, args.font_path, args.font_size, args.output_git_path)
+
+if __name__ == '__main__':
+    main()
