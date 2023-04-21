@@ -70,10 +70,10 @@ def draw(text, font_path, font_size, output_git_path, angle=5, band_width=360, d
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='draw rainbow text gif generator')
-    parser.add_argument('--text', type=str, default='部品全体でも上手くいくかも')
+    parser.add_argument('--text', type=str, default='77.7%')
     parser.add_argument('--font_size', type=int, default=128)
     parser.add_argument('--font_path', type=str, default=os.path.join(os.path.dirname(__file__), 'fonts/ipag.ttf'))
-    parser.add_argument('--output_git_path', type=str, default='~/Desktop/rainbow_text.gif')
+    parser.add_argument('--output_git_path', type=str, default='./rainbow_text.gif')
 
     args = parser.parse_args()
 
