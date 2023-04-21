@@ -14,7 +14,7 @@ pip install git+https://github.com/vaik-info/vaik-rainbow-text-gif-generator.git
 ### Example
 
 ```shell
-rainbow_text --text 77.7%
+rainbow_text --text 7.77%
 ```
 
 #### Output
